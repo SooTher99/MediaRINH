@@ -12,7 +12,8 @@ class UserForm(forms.ModelForm):
 
     def clean(self):
         password = self.cleaned_data.get('password')
-        validate_password(password=password)
+        if password:
+            validate_password(password=password)
 
 
 class UserModelsAdmin(admin.ModelAdmin):
