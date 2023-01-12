@@ -17,7 +17,8 @@ class RoleUserChannel(models.TextChoices):
 
 
 class ChannelsModel(models.Model):
-    name = models.CharField(max_length=128, unique=True, verbose_name='Название')
+    name = models.CharField(max_length=128, verbose_name='Название')
+    link_name = models.CharField(max_length=128, unique=True, verbose_name='Ссылка на канал')
     description = models.CharField(max_length=1024, blank=True, null=True, verbose_name='Описание')
     img = models.ImageField('Картинка канала', upload_to=upload_to, blank=True, null=True,
                             validators=[FileMimeValidator()])
