@@ -43,9 +43,6 @@ class UsersChannelModel(models.Model):
         verbose_name = "Пользователи каналов"
         verbose_name_plural = "Пользователь канала"
 
-    def __str__(self):
-        return f"{self.pk}"
-
 
 class ContentAbstractModel(models.Model):
     user_channel = models.ForeignKey('channel.UsersChannelModel', on_delete=models.CASCADE,
