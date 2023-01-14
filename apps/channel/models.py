@@ -37,7 +37,8 @@ class UsersChannelModel(models.Model):
     user = models.ForeignKey('account.User', on_delete=models.CASCADE, verbose_name='Пользователь')
     channel = models.ForeignKey('channel.ChannelsModel', on_delete=models.CASCADE, verbose_name='Канал')
     enable_notification = models.BooleanField(default=False, verbose_name='Уведомления')
-    role = models.CharField(verbose_name='Роль', choices=RoleUserChannel.choices, max_length=64)
+    role = models.CharField(verbose_name='Роль', choices=RoleUserChannel.choices, max_length=64,
+                            default=RoleUserChannel.USER)
 
     class Meta:
         verbose_name = "Пользователи каналов"
