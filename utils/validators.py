@@ -1,5 +1,5 @@
 from rest_framework.serializers import ValidationError
-from string import punctuation, digits
+from string import punctuation, digits, ascii_letters
 from pathlib import Path
 
 import magic
@@ -8,8 +8,11 @@ from django.utils.deconstruct import deconstructible
 
 
 def validate_letters(name):
-    if not set(name).isdisjoint(punctuation + digits):
-        raise ValidationError("Поле должно содержать только буквы")
+    name = name.strip()
+    if set(name).isdisjoint(ascii_letters):
+        raise ValidationError("Поле должно содержать только латинские символы")
+    if ' ' in name:
+        raise ValidationError("Пробелы запрещены")
 
 
 @deconstructible

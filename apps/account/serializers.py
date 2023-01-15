@@ -49,16 +49,16 @@ class PersonalAreaSerializer(serializers.ModelSerializer):
     """
     class Meta:
         model = User
-        fields = ('post_agreement', 'email', 'avatar', 'first_name', 'last_name',)
+        fields = ('post_agreement', 'email', 'avatar', 'first_name', 'last_name', 'username')
 
         extra_kwargs = {
-            'role': {'read_only': True},
             'email': {'read_only': True},
             'avatar': {'allow_null': True, 'use_url': False},
             # 'first_name': {'validators': [validate_letters]},
             # 'last_name': {'validators': [validate_letters]}
             'first_name': {'read_only': True},
-            'last_name': {'read_only': True}
+            'last_name': {'read_only': True},
+            'username': {'read_only': True}
         }
 
     def update(self, instance, validated_data):
