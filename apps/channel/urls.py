@@ -1,6 +1,9 @@
 from django.urls import path
-from apps.channel.views import ListChannelView, DetailChannelView, AddUsersInChannelView, ListUserInChannel, ListMediaChannelView
-
+from apps.channel.views import (ListChannelView,
+                                DetailChannelView,
+                                AddUsersInChannelView,
+                                ListUserInChannel,
+                                ListMediaChannelView,)
 urlpatterns = [
     path('channels/', ListChannelView.as_view(), name='channels'),
     path('channels/<int:pk>/', DetailChannelView.as_view(), name='channel'),
