@@ -15,6 +15,7 @@ class ListChannelSerializers(serializers.ModelSerializer):
             'link_name': {"validators": [UniqueValidator(queryset=models.ChannelsModel.objects.all(),
                                                          message="Канал с таким названием уже существует"),
                                          validate_letters]},
+            'img': {'use_url': False},
         }
 
     def create(self, validated_data):
@@ -29,6 +30,9 @@ class DetailChannelSerializers(ListChannelSerializers):
     class Meta:
         model = models.ChannelsModel
         fields = ('id', 'name', 'img', 'description')
+        extra_kwargs = {
+            'img': {'use_url': False},
+        }
 
     def update(self, instance, validated_data):
         instance = super().update(instance, validated_data)
@@ -39,6 +43,9 @@ class ListUserSerializers(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ('id', 'avatar', 'first_name', 'last_name', 'username')
+        extra_kwargs = {
+            'img': {'use_url': False},
+        }
 
 
 class AddUserInChannelSerializers(serializers.Serializer):
@@ -65,3 +72,13 @@ class UserInChannelSerializers(serializers.ModelSerializer):
     class Meta:
         model = models.UsersChannelModel
         fields = ('id', 'user', 'role')
+
+
+class MediaSerializers(serializers.ModelSerializer):
+    class Meta:
+        model = models.MediaModel
+        fields = ('id', 'text', 'source_media', 'compressed_media')
+        extra_kwargs = {
+            'source_media': {'use_url': False},
+            'compressed_media': {'use_url': False},
+        }
