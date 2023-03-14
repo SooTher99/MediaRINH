@@ -4,12 +4,13 @@ from rest_framework.filters import SearchFilter
 from rest_framework.response import Response
 from rest_framework import status
 
-from apps.channel.models import ChannelsModel, UsersChannelModel
+from apps.channel.models import ChannelsModel, UsersChannelModel, MediaModel
 from apps.channel.serializers import (ListChannelSerializers,
                                       DetailChannelSerializers,
                                       ListUserSerializers,
                                       AddUserInChannelSerializers,
-                                      UserInChannelSerializers)
+                                      UserInChannelSerializers,
+                                      MediaSerializers)
 from apps.channel.permission import IsAuthenticatedOrReadOnly
 from apps.account.models import User
 
@@ -89,5 +90,40 @@ class ListUserInChannel(ListAPIView):
         return quer
 
 
+class ListMediaChannelView(GenericAPIView):
+    permission_classes = [IsAuthenticated]
+    queryset = MediaModel.objects.all()
+    serializer_class = MediaSerializers
 
+    def get_context(self):
+        return get_object_or_404(ChannelsModel.objects.all().filter(Q(userschannelmodel__user=self.request.user)
+                                                                    | Q(is_private=False)).filter(
+            pk=self.kwargs.get('pk')))
 
+    def get_userchannel(self):
+        return ChannelsModel.objects.all().filter(user=self.request.user, channel=self.kwargs.get('pk')).first()
+
+    def get_queryset(self):
+        queryset = ChannelsModel.objects.all()
+        if bool(self.request.user and self.request.user.is_authenticated):
+            channel = self.get_context()
+            print(channel.userschannelmodel_set.first().mediamodel_set)
+
+            return channel.userschannelmodel_set.first().mediamodel_set
+        else:
+            channel = queryset.filter(is_private=False)
+            return channel.userschannelmodel_set.first().mediamodel_set
+
+    def post(self, request, *args, **kwargs):
+        channel = self.get_context()
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save(user_channel=channel.userschannelmodel_set.first())
+
+        return Response(data=serializer.data, status=status.HTTP_201_CREATED)
+
+    def get(self, request, *args, **kwargs):
+        queryset = self.get_queryset()
+        serializer = self.get_serializer(queryset, many=True)
+
+        return Response(data=serializer.data, status=status.HTTP_200_OK)
