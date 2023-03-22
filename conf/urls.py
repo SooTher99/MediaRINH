@@ -17,6 +17,9 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf.urls.static import static
 from django.conf import settings
+from fastapi import APIRouter
+
+from apps.account.api.routers import router as account_routers
 
 
 urlpatterns = [
@@ -26,3 +29,6 @@ urlpatterns = [
 ]
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+
+routers = APIRouter()
+routers.include_router(account_routers)
