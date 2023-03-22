@@ -5,5 +5,5 @@ class QuickstartUser(HttpUser):
 
     @task
     def test(self):
-        self.client.get("/api/v2/test/")
+        self.client.get("/api/v2/test1/")
 
