@@ -1,16 +1,3 @@
-#FROM pypy:3.9-7.3.11-buster
-#
-#WORKDIR /app
-#COPY . /app
-#
-#ENV PYTHONDONTWRITEBYTECODE 1
-#ENV PYTHONUNBUFFERED 1
-#
-#RUN pip install --upgrade pip && \
-#    pip install poetry && \
-#    poetry config virtualenvs.create false && \
-#    poetry poetry install --no-interaction --no-root --no-cache
-#
 FROM pypy:3.9-7.3.11-buster
 
 ENV PYTHONUNBUFFERED 1
