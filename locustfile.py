@@ -1,9 +1,9 @@
-from locust import HttpUser, task, between
+from locust import task, between, FastHttpUser
 
-class QuickstartUser(HttpUser):
+class QuickstartUser(FastHttpUser):
     wait_time = between(1, 2)
 
     @task
     def test(self):
-        self.client.get("/api/v2/test1/")
+        self.client.post("/api/v2/login", data={"username":"admin", "password":"admin"})
 
