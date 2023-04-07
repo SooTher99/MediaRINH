@@ -18,4 +18,4 @@ session_factory = sessionmaker(engine, expire_on_commit=False)
 metadata = MetaData()
 
 def get_async_session() -> scoped_session[Union[Session, Any]]:
-    return scoped_session(session_factory)
+    yield scoped_session(session_factory)

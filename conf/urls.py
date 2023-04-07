@@ -19,7 +19,7 @@ from django.conf.urls.static import static
 from django.conf import settings
 from fastapi import APIRouter
 
-from apps.account.api.routers import router as account_routers
+from apps.account.api.routers import router as account_routers, fastapi_users, auth_backend
 
 
 urlpatterns = [
@@ -30,5 +30,13 @@ urlpatterns = [
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
+
 routers = APIRouter()
 routers.include_router(account_routers)
+
+routers.include_router(
+    fastapi_users.get_auth_router(auth_backend),
+    tags=["auth"],
+)
+
+

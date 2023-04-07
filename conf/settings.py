@@ -59,7 +59,6 @@ INSTALLED_APPS = [
     'apps.channel',
 
 ]
-
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -147,7 +146,8 @@ SIMPLE_JWT = {
 
 AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.AllowAllUsersModelBackend']
-
+#
+# from django.contrib.auth.backends import AllowAllUsersModelBackend
 
 TEMPLATES = [
     {
